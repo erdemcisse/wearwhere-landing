@@ -17,9 +17,10 @@ export default function PrivacyPage() {
     >
       <LegalSection heading="What WearWhere is">
         <p>
-          WearWhere is a Europe-first, event-aware outfit planning app
-          currently in private beta. It is not a marketplace. It does not
-          process payments. It links out to brands&apos; official retailer
+          WearWhere is an iOS-first, Europe-focused outfit planning app
+          currently in private beta. The App Store listing is in preparation
+          and is not yet live. WearWhere is not a marketplace, does not
+          process payments, and links out to brands&apos; official retailer
           websites for the actual purchase.
         </p>
       </LegalSection>

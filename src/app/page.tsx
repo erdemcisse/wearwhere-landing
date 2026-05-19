@@ -12,6 +12,15 @@ import {
   MockProductCard,
   MockVoteTeaser,
 } from "@/components/AppPreviewCard";
+import { AppStoreComingSoonButton } from "@/components/AppStoreComingSoonButton";
+import { AppPreviewShowcase } from "@/components/AppPreviewShowcase";
+import { BrandRetailerFlow } from "@/components/BrandRetailerFlow";
+import { FriendVotePreview } from "@/components/FriendVotePreview";
+import { TrustStrip } from "@/components/TrustStrip";
+import { WaitlistCTA } from "@/components/WaitlistCTA";
+
+const EMAIL = "erdemcisse98@icloud.com";
+const BETA_MAILTO = `mailto:${EMAIL}?subject=${encodeURIComponent("WearWhere beta access request")}`;
 
 const howItWorks = [
   {
@@ -45,36 +54,22 @@ const considers = [
   { label: "Retailer links", hint: "Official seller pages only" },
 ];
 
-const previewCards = [
+const launchPoints = [
   {
-    title: "Event discovery",
-    description:
-      "Curated event surfaces — concerts, dinners, festivals, city days — with weather already factored in.",
+    title: "iOS-first mobile experience",
+    body: "Designed for iPhone. Native-feeling interface, safe-area aware, built on Expo + React Native.",
   },
   {
-    title: "Plan wizard",
-    description:
-      "A short, calm flow. Tell WearWhere who you are going with and how dressed-up you want to feel.",
+    title: "Private-first sharing",
+    body: "No public feed. No public profiles. Share links are revocable and never expose body or sizing data.",
   },
   {
-    title: "Outfit results",
-    description:
-      "A small set of looks scored on weather, formality, and your style — never an overwhelming list.",
+    title: "Account deletion in-app",
+    body: "Users can initiate account deletion from inside the app. No support-ticket gate.",
   },
   {
-    title: "Closet",
-    description:
-      "Save looks. Re-use pieces across events. Stay on top of what you actually wear.",
-  },
-  {
-    title: "Friend voting",
-    description:
-      "Share a private, revocable link. Friends vote between two looks — no public feed, no public profile.",
-  },
-  {
-    title: "Shop the look",
-    description:
-      "Each piece links to the brand's official site. WearWhere never handles checkout, payment, or delivery.",
+    title: "Retailer checkout, not ours",
+    body: "WearWhere never handles payment, shipping, or customer service. Affiliate disclosure when applicable.",
   },
 ];
 
@@ -87,7 +82,6 @@ export default function Home() {
         {/* HERO */}
         {/* ============================================================ */}
         <section className="relative overflow-hidden">
-          {/* Soft ambient backdrop */}
           <div
             className="absolute inset-0 -z-10 opacity-70"
             aria-hidden
@@ -97,7 +91,7 @@ export default function Home() {
             }}
           />
 
-          <div className="mx-auto max-w-6xl px-6 lg:px-8 pt-16 pb-24 md:pt-24 md:pb-32 grid lg:grid-cols-[1.15fr_1fr] gap-16 lg:gap-12 items-center">
+          <div className="mx-auto max-w-6xl px-6 lg:px-8 pt-16 pb-24 md:pt-24 md:pb-32 grid lg:grid-cols-[1.1fr_1fr] gap-16 lg:gap-12 items-center">
             <div>
               <BrandBadge label="Beta in development" />
               <h1 className="mt-7 font-display text-[2.75rem] sm:text-6xl md:text-7xl tracking-tight leading-[0.98] text-ink">
@@ -113,66 +107,107 @@ export default function Home() {
               </h1>
               <p className="mt-7 max-w-xl text-lg text-ink/65 leading-relaxed">
                 WearWhere helps you decide what to wear for concerts, dinners,
-                festivals, city days, and nights out — using event context,
-                weather, style preferences, and curated product links.
+                festivals, city days, and nights out — using events, weather,
+                style, comfort, and curated seller links.
               </p>
 
               <div className="mt-9 flex flex-wrap items-center gap-3">
-                <LinkButton href="/contact" variant="primary" size="lg">
-                  Request beta access
+                <LinkButton href={BETA_MAILTO} external variant="primary" size="lg">
+                  Join beta waitlist
                 </LinkButton>
                 <LinkButton href="#brands" variant="ghost" size="lg">
                   For brands & retailers
                 </LinkButton>
               </div>
 
-              <p className="mt-8 text-xs text-ink/45 max-w-md leading-relaxed">
-                Europe-first · Event-aware · Privacy-first. Not yet on the App
-                Store. No public feed, no public profiles.
+              <p className="mt-7 inline-flex items-center gap-2 text-xs tracking-[0.18em] uppercase text-ink/45">
+                <span className="size-1 rounded-full bg-sage" aria-hidden />
+                iOS-first · App Store launch in preparation
               </p>
             </div>
 
-            {/* App preview composition */}
-            <div className="relative mt-4 lg:mt-0">
-              <div className="relative">
-                <MockPhoneFrame>
+            {/* App preview composition — 3 layered phone-style screens */}
+            <div className="relative mt-4 lg:mt-0 min-h-[520px] sm:min-h-[600px] lg:min-h-[640px]">
+              {/* Back screen — Plan/event */}
+              <div className="hidden md:block absolute -left-8 top-2 w-[220px] rotate-[-8deg] opacity-95">
+                <MockPhoneFrame label="Plan">
                   <div className="size-full bg-gradient-to-b from-ivory to-ivory-soft p-3 flex flex-col gap-2.5">
                     <div className="flex items-center justify-between text-[0.55rem] tracking-[0.18em] uppercase text-ink/45 px-1 pt-1">
-                      <span>Today</span>
-                      <span>Berlin · 9°C</span>
+                      <span>Friday</span>
+                      <span>Berlin · 9°</span>
                     </div>
                     <MockEventCard />
+                    <div className="rounded-2xl bg-ivory-soft border border-ink/[0.06] p-3">
+                      <p className="text-[0.55rem] tracking-[0.18em] uppercase text-sage font-medium">
+                        Plan
+                      </p>
+                      <p className="font-display text-sm text-ink mt-1">
+                        How dressed-up?
+                      </p>
+                      <div className="mt-2.5 grid grid-cols-3 gap-1.5">
+                        {["Easy", "Sharp", "Dressed"].map((l, i) => (
+                          <span
+                            key={l}
+                            className={`rounded-full px-1.5 py-1 text-[0.5rem] text-center font-medium border ${
+                              i === 1
+                                ? "bg-coral text-ivory border-coral"
+                                : "bg-ivory text-ink/65 border-ink/10"
+                            }`}
+                          >
+                            {l}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </MockPhoneFrame>
+              </div>
+
+              {/* Front screen — Outfit results (centred, primary) */}
+              <div className="relative z-10">
+                <MockPhoneFrame label="Outfit result">
+                  <div className="size-full bg-gradient-to-b from-ivory to-ivory-soft p-3 flex flex-col gap-2.5">
+                    <div className="flex items-center justify-between text-[0.55rem] tracking-[0.18em] uppercase text-ink/45 px-1 pt-1">
+                      <span>Tonight</span>
+                      <span>Strong match</span>
+                    </div>
                     <MockOutfitCard />
                     <MockProductCard />
                     <MockVoteTeaser />
                   </div>
                 </MockPhoneFrame>
+              </div>
 
-                {/* Floating accent cards */}
-                <div className="hidden md:block absolute -left-10 top-1/4 w-44 rotate-[-6deg] opacity-95">
-                  <div className="rounded-2xl bg-ivory-soft border border-ink/[0.06] shadow-[0_4px_12px_-2px_rgba(20,20,20,0.08),0_24px_48px_-16px_rgba(20,20,20,0.18)] p-3">
-                    <span className="text-[0.55rem] tracking-[0.18em] uppercase text-sage font-medium">
-                      Weather
-                    </span>
-                    <p className="font-display text-sm text-ink mt-1 leading-tight">
-                      9°C · clear
-                      <br />
-                      light layer fine
-                    </p>
+              {/* Right screen — Closet/Vote */}
+              <div className="hidden md:block absolute -right-8 bottom-2 w-[220px] rotate-[7deg] opacity-95">
+                <MockPhoneFrame label="Vote">
+                  <div className="size-full bg-gradient-to-b from-coral/[0.06] via-ivory to-ivory-soft p-3 flex flex-col gap-2.5">
+                    <div className="flex items-center justify-between text-[0.55rem] tracking-[0.18em] uppercase text-ink/45 px-1 pt-1">
+                      <span>Friend vote</span>
+                      <span>10 votes</span>
+                    </div>
+                    <div className="grid grid-cols-2 gap-1.5">
+                      <div className="aspect-[3/4] rounded-xl bg-gradient-to-b from-sage/20 to-ivory border border-ink/[0.06] flex items-end p-2">
+                        <span className="text-[0.5rem] font-medium text-ink/65">
+                          Look A
+                        </span>
+                      </div>
+                      <div className="aspect-[3/4] rounded-xl bg-ink text-ivory border border-ink flex items-end p-2">
+                        <span className="text-[0.5rem] font-medium">
+                          Look B · winning
+                        </span>
+                      </div>
+                    </div>
+                    <div className="rounded-2xl bg-coral/[0.08] border border-coral/20 p-2.5">
+                      <p className="text-[0.55rem] tracking-[0.18em] uppercase text-coral-deep font-medium">
+                        Closet
+                      </p>
+                      <p className="font-display text-xs text-ink mt-1 leading-tight">
+                        Saved for later
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <div className="hidden md:block absolute -right-6 bottom-12 w-40 rotate-[5deg]">
-                  <div className="rounded-2xl bg-coral text-ivory shadow-[0_4px_12px_-2px_rgba(20,20,20,0.08),0_24px_48px_-16px_rgba(20,20,20,0.18)] p-3">
-                    <span className="text-[0.55rem] tracking-[0.18em] uppercase font-medium opacity-80">
-                      Stylist note
-                    </span>
-                    <p className="font-display text-sm mt-1 leading-tight">
-                      Warm tones,
-                      <br />
-                      grounded shoes.
-                    </p>
-                  </div>
-                </div>
+                </MockPhoneFrame>
               </div>
             </div>
           </div>
@@ -203,6 +238,69 @@ export default function Home() {
         </section>
 
         {/* ============================================================ */}
+        {/* BUILT FOR IPHONE / APP STORE LAUNCH */}
+        {/* ============================================================ */}
+        <section
+          id="launch"
+          className="bg-ivory-soft border-y border-ink/[0.06]"
+        >
+          <div className="mx-auto max-w-6xl px-6 lg:px-8 py-24 grid lg:grid-cols-[1fr_1.1fr] gap-12 items-start">
+            <div className="lg:sticky lg:top-24">
+              <BrandBadge label="Launch in preparation" tone="sage" />
+              <h2 className="mt-6 font-display text-3xl sm:text-4xl md:text-5xl tracking-tight leading-[1.05] text-ink">
+                Built for iPhone.
+                <br />
+                Preparing for App Store launch.
+              </h2>
+              <p className="mt-5 text-lg text-ink/65 leading-relaxed max-w-xl">
+                WearWhere is an iOS-first experience. We&apos;re polishing the
+                beta now and preparing the App Store listing. Want to be told
+                when it&apos;s ready?
+              </p>
+
+              <div className="mt-8 flex flex-wrap gap-3 items-center">
+                <AppStoreComingSoonButton variant="ink" />
+                <LinkButton
+                  href={BETA_MAILTO}
+                  external
+                  variant="ghost"
+                  size="lg"
+                >
+                  Get launch updates
+                </LinkButton>
+              </div>
+
+              <p className="mt-6 text-xs text-ink/45 max-w-md leading-relaxed">
+                The button above is a custom WearWhere placeholder, not
+                Apple&apos;s official badge. We&apos;ll switch it for the
+                official App Store badge once the listing is live.
+              </p>
+            </div>
+
+            <ul className="grid sm:grid-cols-2 gap-4">
+              {launchPoints.map((p) => (
+                <li
+                  key={p.title}
+                  className="rounded-3xl border border-ink/[0.08] bg-ivory p-6 hover:border-ink/20 transition-colors"
+                >
+                  <p className="font-display text-lg text-ink leading-tight">
+                    {p.title}
+                  </p>
+                  <p className="mt-2 text-sm text-ink/60 leading-relaxed">
+                    {p.body}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        {/* ============================================================ */}
+        {/* APP PREVIEW SHOWCASE */}
+        {/* ============================================================ */}
+        <AppPreviewShowcase />
+
+        {/* ============================================================ */}
         {/* WHAT IT CONSIDERS */}
         {/* ============================================================ */}
         <section className="bg-ivory-soft border-y border-ink/[0.06]">
@@ -229,114 +327,14 @@ export default function Home() {
         </section>
 
         {/* ============================================================ */}
-        {/* APP PREVIEW CARDS */}
+        {/* FRIEND VOTING */}
         {/* ============================================================ */}
-        <section className="mx-auto max-w-6xl px-6 lg:px-8 py-24">
-          <SectionHeader
-            eyebrow="Beta interface preview"
-            title="Six surfaces, one calm flow."
-            description="None of the imagery below is a live App Store screenshot. The visual system shown here is what we're building toward in the iOS beta."
-          />
-          <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {previewCards.map((p) => (
-              <FeatureCard
-                key={p.title}
-                title={p.title}
-                description={p.description}
-              />
-            ))}
-          </div>
-        </section>
+        <FriendVotePreview />
 
         {/* ============================================================ */}
         {/* FOR BRANDS */}
         {/* ============================================================ */}
-        <section
-          id="brands"
-          className="bg-ink text-ivory relative overflow-hidden"
-        >
-          <div
-            aria-hidden
-            className="absolute inset-0 opacity-50"
-            style={{
-              background:
-                "radial-gradient(ellipse 50% 40% at 100% 0%, rgba(255,106,74,0.18), transparent 60%)",
-            }}
-          />
-          <div className="relative mx-auto max-w-6xl px-6 lg:px-8 py-24 grid lg:grid-cols-2 gap-12">
-            <div>
-              <span className="inline-flex items-center gap-2 text-xs font-medium tracking-[0.18em] uppercase text-coral mb-5">
-                <span className="size-1 rounded-full bg-coral" aria-hidden />
-                For brands & retailers
-              </span>
-              <h2 className="font-display text-3xl sm:text-4xl md:text-5xl tracking-tight leading-[1.05]">
-                A calm, contextual lane to discovery.
-              </h2>
-              <p className="mt-5 text-lg text-ivory/70 leading-relaxed max-w-xl">
-                WearWhere helps users discover outfit ideas in high-intent
-                contexts: concerts, dinners, festivals, city days, weather
-                changes, and nights out. We send those users to your official
-                retailer page and step out of the way.
-              </p>
-
-              <div className="mt-9 grid sm:grid-cols-2 gap-3">
-                {[
-                  "Europe-first fashion discovery",
-                  "Contextual outfit recommendations",
-                  "Event & weather-based user intent",
-                  "Official seller links — no marketplace",
-                  "Affiliate disclosure when applicable",
-                  "No scraping, ever",
-                ].map((b) => (
-                  <div
-                    key={b}
-                    className="flex items-start gap-3 text-sm text-ivory/85"
-                  >
-                    <span
-                      aria-hidden
-                      className="mt-1.5 size-1.5 rounded-full bg-coral shrink-0"
-                    />
-                    <span>{b}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-9">
-                <LinkButton href="/contact" variant="primary" size="lg">
-                  Get in touch
-                </LinkButton>
-              </div>
-            </div>
-
-            <div className="lg:pl-8">
-              <div className="rounded-3xl border border-ivory/10 bg-ivory/[0.03] p-7">
-                <h3 className="font-display text-2xl">What we hand back to you</h3>
-                <ul className="mt-5 space-y-4 text-sm text-ivory/75 leading-relaxed">
-                  <li>
-                    <strong className="text-ivory">Checkout, payment, delivery, returns, customer service</strong>{" "}
-                    — all stay with the retailer. WearWhere never sees a card.
-                  </li>
-                  <li>
-                    <strong className="text-ivory">Anonymous click metadata</strong>{" "}
-                    — only the destination domain and a source surface label.
-                    No raw URLs, no PII, no full query strings.
-                  </li>
-                  <li>
-                    <strong className="text-ivory">Honest disclosure</strong>{" "}
-                    — affiliate language only appears on products with an
-                    approved relationship and a verified link.
-                  </li>
-                </ul>
-              </div>
-
-              <p className="mt-6 text-xs text-ivory/50 leading-relaxed">
-                We are currently in beta and preparing approved affiliate
-                relationships. Until then, product links may be official seller
-                links without commission.
-              </p>
-            </div>
-          </div>
-        </section>
+        <BrandRetailerFlow />
 
         {/* ============================================================ */}
         {/* DISCLOSURE */}
@@ -360,39 +358,14 @@ export default function Home() {
         </section>
 
         {/* ============================================================ */}
-        {/* BETA / FINAL CTA */}
+        {/* TRUST STRIP */}
         {/* ============================================================ */}
-        <section id="beta" className="mx-auto max-w-6xl px-6 lg:px-8 pb-24">
-          <div className="relative overflow-hidden rounded-[2rem] bg-ivory-soft border border-ink/[0.08] p-10 md:p-16">
-            <div
-              aria-hidden
-              className="absolute inset-0 opacity-60"
-              style={{
-                background:
-                  "radial-gradient(ellipse 60% 50% at 100% 100%, rgba(255,106,74,0.14), transparent 60%), radial-gradient(ellipse 50% 40% at 0% 0%, rgba(125,143,122,0.12), transparent 60%)",
-              }}
-            />
-            <div className="relative max-w-2xl">
-              <BrandBadge label="Private beta" tone="sage" />
-              <h2 className="mt-6 font-display text-4xl md:text-5xl tracking-tight leading-[1.05] text-ink">
-                Want to see WearWhere?
-              </h2>
-              <p className="mt-5 text-lg text-ink/65 leading-relaxed">
-                We are preparing a Europe-first beta for event-aware outfit
-                planning and shoppable style discovery. Tell us a bit about
-                yourself or your brand and we&apos;ll be in touch.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <LinkButton href="/contact" variant="primary" size="lg">
-                  Contact WearWhere
-                </LinkButton>
-                <LinkButton href="/privacy" variant="ghost" size="lg">
-                  Read the privacy policy
-                </LinkButton>
-              </div>
-            </div>
-          </div>
-        </section>
+        <TrustStrip />
+
+        {/* ============================================================ */}
+        {/* WAITLIST CTA */}
+        {/* ============================================================ */}
+        <WaitlistCTA />
       </main>
       <Footer />
     </>

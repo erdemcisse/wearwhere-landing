@@ -17,7 +17,7 @@ const playfair = Playfair_Display({
 const SITE_URL = "https://wearwhere.app";
 const TITLE = "WearWhere — Outfits for the plans you actually have";
 const DESCRIPTION =
-  "WearWhere is a Europe-first event-aware fashion app that helps you choose outfits for concerts, dinners, festivals, city days, and nights out using weather, style preferences, and curated product links.";
+  "WearWhere is an iOS-first, Europe-focused fashion app that helps users plan outfits for events, weather, city days, nights out, and friend votes.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -28,13 +28,14 @@ export const metadata: Metadata = {
   description: DESCRIPTION,
   applicationName: "WearWhere",
   keywords: [
-    "WearWhere",
-    "outfit planner",
-    "event outfits",
+    "event outfit planner",
     "fashion app",
+    "outfit ideas",
+    "iOS fashion app",
+    "event styling",
+    "weather outfit app",
+    "WearWhere",
     "Europe fashion",
-    "what to wear",
-    "weather outfit",
   ],
   authors: [{ name: "WearWhere" }],
   openGraph: {
@@ -43,6 +44,7 @@ export const metadata: Metadata = {
     title: TITLE,
     description: DESCRIPTION,
     siteName: "WearWhere",
+    locale: "en_GB",
   },
   twitter: {
     card: "summary_large_image",

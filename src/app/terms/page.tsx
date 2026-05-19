@@ -17,10 +17,22 @@ export default function TermsPage() {
     >
       <LegalSection heading="What WearWhere provides">
         <p>
+          WearWhere is an iOS-first outfit planning app currently in private
+          beta. The App Store listing is in preparation and is not yet live.
           WearWhere offers outfit suggestions and planning support based on
           events, weather, and your stated preferences. The suggestions are
           informational. They are not professional styling, medical, or legal
           advice.
+        </p>
+      </LegalSection>
+
+      <LegalSection heading="Beta nature & changing features">
+        <p>
+          WearWhere is in private beta and preparing for App Store launch.
+          Features may change, break, or be removed without notice during the
+          beta. Share and vote links are private-first and revocable. There
+          are no public comments, public feeds, or public profiles in the
+          beta.
         </p>
       </LegalSection>
 
@@ -63,14 +75,6 @@ export default function TermsPage() {
           During the beta, WearWhere does not host a public feed, public
           comments, or public profiles. Sharing is link-based, private, and
           revocable.
-        </p>
-      </LegalSection>
-
-      <LegalSection heading="Beta nature">
-        <p>
-          WearWhere is in private beta. Features may change, break, or be
-          removed without notice. We try not to lose your data, but we do not
-          guarantee uninterrupted service during the beta.
         </p>
       </LegalSection>
 
