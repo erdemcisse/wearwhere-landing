@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #141414;
+  --color-ivory: #f6f1ea;
+  --color-ivory-soft: #fbf7f1;
+  --color-coral: #ff6a4a;
+  --color-coral-deep: #e85c40;
+  --color-sage: #7d8f7a;
+  --color-sage-soft: #a4b3a1;
+  --color-mist: #d9d5ce;
+  --color-mist-soft: #e8e5df;
+  --color-cream: #efe9df;
+
+  --font-display: var(--font-playfair), "Playfair Display", Georgia, serif;
+  --font-sans: var(--font-inter), "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --shadow-card: 0 1px 2px rgba(20, 20, 20, 0.04), 0 8px 24px -12px rgba(20, 20, 20, 0.12);
+  --shadow-float: 0 4px 12px -2px rgba(20, 20, 20, 0.08), 0 24px 48px -16px rgba(20, 20, 20, 0.18);
+  --shadow-phone: 0 24px 60px -20px rgba(20, 20, 20, 0.32), 0 8px 24px -8px rgba(20, 20, 20, 0.16);
+}
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body {
+  background-color: var(--color-ivory);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: var(--color-coral);
+  color: var(--color-ivory);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
