@@ -27,6 +27,57 @@ export default function BrandsPage() {
           />
         </section>
 
+        {/* For affiliate reviewers — Awin-ready quick-reference card */}
+        <section
+          id="for-affiliate-reviewers"
+          aria-label="For affiliate reviewers"
+          className="mx-auto max-w-3xl px-6 lg:px-8 pb-12"
+        >
+          <article className="rounded-3xl border border-mist/60 bg-ivory-soft p-7 md:p-9 shadow-[0_1px_2px_rgba(20,20,20,0.04),0_8px_24px_-12px_rgba(20,20,20,0.10)]">
+            <p className="text-xs tracking-[0.18em] uppercase text-sage font-medium">
+              For affiliate reviewers
+            </p>
+            <h3 className="mt-3 font-display text-2xl tracking-tight text-ink">
+              The 6 lines we&apos;d like you to know.
+            </h3>
+            <ul className="mt-6 space-y-3 text-sm text-ink/70 leading-relaxed">
+              <li className="flex gap-3">
+                <span aria-hidden className="mt-1.5 size-1.5 rounded-full bg-coral shrink-0" />
+                <span>WearWhere is currently in private beta. The iOS App Store listing is in preparation and not yet live.</span>
+              </li>
+              <li className="flex gap-3">
+                <span aria-hidden className="mt-1.5 size-1.5 rounded-full bg-coral shrink-0" />
+                <span>Until your advertiser approval lands, your brand operates in <strong className="text-ink">official seller-link mode</strong> — plain links to your product detail pages, no commission to WearWhere.</span>
+              </li>
+              <li className="flex gap-3">
+                <span aria-hidden className="mt-1.5 size-1.5 rounded-full bg-coral shrink-0" />
+                <span>WearWhere never scrapes retailers. Catalogue rows are human-curated; the mobile bundle never assembles affiliate URLs.</span>
+              </li>
+              <li className="flex gap-3">
+                <span aria-hidden className="mt-1.5 size-1.5 rounded-full bg-coral shrink-0" />
+                <span>Checkout, payment, shipping, returns, and customer service all remain on your retailer site. WearWhere never sees a card.</span>
+              </li>
+              <li className="flex gap-3">
+                <span aria-hidden className="mt-1.5 size-1.5 rounded-full bg-coral shrink-0" />
+                <span>Affiliate disclosure (&quot;WearWhere may earn a commission&quot;) appears in-app only on products with a verified, approved affiliate link.</span>
+              </li>
+              <li className="flex gap-3">
+                <span aria-hidden className="mt-1.5 size-1.5 rounded-full bg-coral shrink-0" />
+                <span>
+                  Questions before approval?{" "}
+                  <a
+                    href={`mailto:erdemcisse98@icloud.com?subject=${encodeURIComponent("WearWhere brand/retailer inquiry")}`}
+                    className="underline decoration-coral underline-offset-4 hover:text-ink"
+                  >
+                    erdemcisse98@icloud.com
+                  </a>
+                  .
+                </span>
+              </li>
+            </ul>
+          </article>
+        </section>
+
         <BrandRetailerFlow />
 
         <section className="mx-auto max-w-6xl px-6 lg:px-8 py-24">

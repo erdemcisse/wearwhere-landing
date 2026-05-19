@@ -1,9 +1,11 @@
+import Image from "next/image";
 import {
   appPreviews,
   featuredAppPreviews,
   type AppPreviewVisual,
   type AppPreviewItem,
 } from "@/data/appPreviews";
+import { hasPublicAsset } from "@/lib/publicAssets";
 import { SectionHeader } from "./SectionHeader";
 
 /**
@@ -185,35 +187,50 @@ export function AppPreviewShowcase({
         description={description}
       />
       <div className={`mt-14 grid sm:grid-cols-2 ${gridCols} gap-5`}>
-        {items.map((p) => (
-          <article
-            key={p.slug}
-            className="group rounded-3xl bg-ivory-soft border border-mist/60 p-5 shadow-[0_1px_2px_rgba(20,20,20,0.04),0_8px_24px_-12px_rgba(20,20,20,0.10)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_48px_-20px_rgba(20,20,20,0.18)]"
-          >
-            <div className="relative aspect-[4/5] mb-5 rounded-2xl overflow-hidden">
-              {/*
-               * IMAGE SWAP POINT
-               * When real iPhone screenshots ship under p.imagePath
-               * (e.g. /previews/results.png), replace this <MockVisual />
-               * with a next/image render. See public/previews/README.md
-               * for sizing and the full procedure.
-               */}
-              <MockVisual kind={p.visualType} />
-              <span className="absolute top-3 left-3 text-[0.55rem] font-medium tracking-[0.18em] uppercase bg-ink text-ivory rounded-full px-2.5 py-1">
-                Beta interface preview
+        {items.map((p) => {
+          const realImageReady = hasPublicAsset(p.imagePath);
+          return (
+            <article
+              key={p.slug}
+              className="group rounded-3xl bg-ivory-soft border border-mist/60 p-5 shadow-[0_1px_2px_rgba(20,20,20,0.04),0_8px_24px_-12px_rgba(20,20,20,0.10)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_48px_-20px_rgba(20,20,20,0.18)]"
+            >
+              <div className="relative aspect-[4/5] mb-5 rounded-2xl overflow-hidden">
+                {/*
+                 * IMAGE SWAP POINT
+                 * If a real screenshot exists at p.imagePath under /public,
+                 * render it via next/image. Otherwise fall back to the
+                 * editorial MockVisual. The check runs at build time via
+                 * hasPublicAsset() so missing files never break the build.
+                 * See public/previews/README.md and
+                 * docs/SCREENSHOT_CAPTURE_GUIDE.md for the swap procedure.
+                 */}
+                {realImageReady ? (
+                  <Image
+                    src={p.imagePath}
+                    alt={`${p.title} — iOS preview screenshot`}
+                    fill
+                    sizes="(min-width: 1024px) 280px, (min-width: 640px) 45vw, 90vw"
+                    className="object-cover"
+                  />
+                ) : (
+                  <MockVisual kind={p.visualType} />
+                )}
+                <span className="absolute top-3 left-3 text-[0.55rem] font-medium tracking-[0.18em] uppercase bg-ink text-ivory rounded-full px-2.5 py-1">
+                  {realImageReady ? "iOS preview" : "Beta interface preview"}
+                </span>
+              </div>
+              <span className="text-xs tracking-[0.18em] uppercase text-sage font-medium">
+                {p.eyebrow}
               </span>
-            </div>
-            <span className="text-xs tracking-[0.18em] uppercase text-sage font-medium">
-              {p.eyebrow}
-            </span>
-            <h3 className="mt-1.5 font-display text-xl tracking-tight text-ink">
-              {p.title}
-            </h3>
-            <p className="mt-2 text-sm text-ink/65 leading-relaxed">
-              {p.description}
-            </p>
-          </article>
-        ))}
+              <h3 className="mt-1.5 font-display text-xl tracking-tight text-ink">
+                {p.title}
+              </h3>
+              <p className="mt-2 text-sm text-ink/65 leading-relaxed">
+                {p.description}
+              </p>
+            </article>
+          );
+        })}
       </div>
     </section>
   );

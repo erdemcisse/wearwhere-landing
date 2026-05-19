@@ -14,6 +14,8 @@ import { AppPreviewShowcase } from "@/components/AppPreviewShowcase";
 import { TrustStrip } from "@/components/TrustStrip";
 import { WaitlistCTA } from "@/components/WaitlistCTA";
 import { WaitlistInputRow } from "@/components/WaitlistInputRow";
+import { hasPublicAsset } from "@/lib/publicAssets";
+import Image from "next/image";
 
 const howItWorks = [
   {
@@ -44,6 +46,8 @@ const considers = [
 ];
 
 export default function Home() {
+  const heroResultsReady = hasPublicAsset("/previews/hero-results.png");
+
   return (
     <>
       <Header />
@@ -97,16 +101,29 @@ export default function Home() {
 
             {/* Hero visual — one dominant phone + two floating chips */}
             <div className="relative mt-4 lg:mt-0">
-              <MockPhoneFrame label="Beta interface preview">
-                <div className="size-full bg-gradient-to-b from-ivory to-ivory-soft p-3 flex flex-col gap-2.5">
-                  <div className="flex items-center justify-between text-[0.55rem] tracking-[0.18em] uppercase text-ink/45 px-1 pt-1">
-                    <span>Tonight</span>
-                    <span>Strong match</span>
+              <MockPhoneFrame
+                label={heroResultsReady ? "iOS preview" : "Beta interface preview"}
+              >
+                {heroResultsReady ? (
+                  <Image
+                    src="/previews/hero-results.png"
+                    alt="WearWhere outfit results — iOS preview screenshot"
+                    fill
+                    sizes="320px"
+                    priority
+                    className="object-cover"
+                  />
+                ) : (
+                  <div className="size-full bg-gradient-to-b from-ivory to-ivory-soft p-3 flex flex-col gap-2.5">
+                    <div className="flex items-center justify-between text-[0.55rem] tracking-[0.18em] uppercase text-ink/45 px-1 pt-1">
+                      <span>Tonight</span>
+                      <span>Strong match</span>
+                    </div>
+                    <MockEventCard />
+                    <MockOutfitCard />
+                    <MockProductCard />
                   </div>
-                  <MockEventCard />
-                  <MockOutfitCard />
-                  <MockProductCard />
-                </div>
+                )}
               </MockPhoneFrame>
 
               {/* Floating accent chip — event/weather context */}
