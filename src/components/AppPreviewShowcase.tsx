@@ -1,15 +1,23 @@
-import Image from "next/image";
-import { appPreviews, type AppPreviewVisual } from "@/data/appPreviews";
+import {
+  appPreviews,
+  featuredAppPreviews,
+  type AppPreviewVisual,
+  type AppPreviewItem,
+} from "@/data/appPreviews";
 import { SectionHeader } from "./SectionHeader";
 
 /**
- * Renders the editorial mock visual that sits inside each preview card
- * when no real screenshot has been added yet. Once `imagePath` is set on
- * an AppPreviewItem, the renderer below switches to next/image.
+ * Editorial mock visual rendered inside each preview card today.
+ *
+ * When real iPhone screenshots are exported, drop them into
+ * /public/previews/ at the paths declared in src/data/appPreviews.ts and
+ * see public/previews/README.md for the swap procedure. The current
+ * component intentionally never imports `next/image` — that means
+ * missing screenshot files cannot break the build.
  */
 function MockVisual({ kind }: { kind: AppPreviewVisual }) {
   const base =
-    "relative size-full rounded-2xl overflow-hidden border border-ink/[0.06]";
+    "relative size-full rounded-2xl overflow-hidden border border-mist/50";
 
   switch (kind) {
     case "event":
@@ -145,37 +153,54 @@ function MockVisual({ kind }: { kind: AppPreviewVisual }) {
   }
 }
 
-export function AppPreviewShowcase() {
+interface AppPreviewShowcaseProps {
+  /** Show only featured cards (homepage). False = full set (e.g. /brands). */
+  featuredOnly?: boolean;
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+}
+
+export function AppPreviewShowcase({
+  featuredOnly = true,
+  eyebrow = "Beta interface preview",
+  title = "Open it before the night out.",
+  description = "Pick the plan. Get the look. Save it, share it, shop at the seller.",
+}: AppPreviewShowcaseProps) {
+  const items: AppPreviewItem[] = featuredOnly
+    ? featuredAppPreviews
+    : appPreviews;
+
+  const gridCols =
+    items.length >= 4 ? "lg:grid-cols-4" : "lg:grid-cols-3";
+
   return (
     <section
       id="app-preview"
       className="mx-auto max-w-6xl px-6 lg:px-8 py-24"
     >
       <SectionHeader
-        eyebrow="Beta interface preview"
-        title="See how WearWhere works."
-        description="Six surfaces, one calm flow. None of the imagery here is a live App Store screenshot — it's the visual system we're building toward in the iOS beta."
+        eyebrow={eyebrow}
+        title={title}
+        description={description}
       />
-      <div className="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {appPreviews.map((p) => (
+      <div className={`mt-14 grid sm:grid-cols-2 ${gridCols} gap-5`}>
+        {items.map((p) => (
           <article
             key={p.slug}
-            className="group rounded-3xl bg-ivory-soft border border-ink/[0.06] p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_48px_-20px_rgba(20,20,20,0.18)]"
+            className="group rounded-3xl bg-ivory-soft border border-mist/60 p-5 shadow-[0_1px_2px_rgba(20,20,20,0.04),0_8px_24px_-12px_rgba(20,20,20,0.10)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_48px_-20px_rgba(20,20,20,0.18)]"
           >
             <div className="relative aspect-[4/5] mb-5 rounded-2xl overflow-hidden">
-              {p.imagePath ? (
-                <Image
-                  src={p.imagePath}
-                  alt={`${p.title} — beta interface preview`}
-                  fill
-                  sizes="(min-width: 1024px) 320px, (min-width: 640px) 45vw, 90vw"
-                  className="object-cover"
-                />
-              ) : (
-                <MockVisual kind={p.visualType} />
-              )}
+              {/*
+               * IMAGE SWAP POINT
+               * When real iPhone screenshots ship under p.imagePath
+               * (e.g. /previews/results.png), replace this <MockVisual />
+               * with a next/image render. See public/previews/README.md
+               * for sizing and the full procedure.
+               */}
+              <MockVisual kind={p.visualType} />
               <span className="absolute top-3 left-3 text-[0.55rem] font-medium tracking-[0.18em] uppercase bg-ink text-ivory rounded-full px-2.5 py-1">
-                {p.imagePath ? "iOS preview" : "Beta interface preview"}
+                Beta interface preview
               </span>
             </div>
             <span className="text-xs tracking-[0.18em] uppercase text-sage font-medium">

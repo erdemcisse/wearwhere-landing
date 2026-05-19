@@ -1,16 +1,25 @@
-import { LinkButton } from "./Button";
 import { BrandBadge } from "./BrandBadge";
-import { AppStoreComingSoonButton } from "./AppStoreComingSoonButton";
+import { WaitlistInputRow } from "./WaitlistInputRow";
 
-const EMAIL = "erdemcisse98@icloud.com";
-
+/**
+ * Final waitlist CTA — single, clean, no fake App Store badge.
+ *
+ * The "Coming soon to the App Store" black rectangle that previously
+ * lived here was reading as a broken asset. Replaced with a tiny muted
+ * pill so the primary action is unambiguously the waitlist input.
+ *
+ * TODO(launch): When the iOS app is live, replace the muted pill below
+ * with Apple's official "Download on the App Store" badge from
+ * https://developer.apple.com/app-store/marketing/guidelines/ and link
+ * to the App Store listing URL.
+ */
 export function WaitlistCTA() {
   return (
     <section
       id="waitlist"
       className="mx-auto max-w-6xl px-6 lg:px-8 py-24"
     >
-      <div className="relative overflow-hidden rounded-[2rem] bg-ivory-soft border border-ink/[0.08] p-10 md:p-16">
+      <div className="relative overflow-hidden rounded-[2rem] bg-ivory-soft border border-mist/60 p-10 md:p-16 shadow-[0_1px_2px_rgba(20,20,20,0.04),0_24px_48px_-20px_rgba(20,20,20,0.12)]">
         <div
           aria-hidden
           className="absolute inset-0 opacity-60"
@@ -19,43 +28,22 @@ export function WaitlistCTA() {
               "radial-gradient(ellipse 60% 50% at 100% 100%, rgba(255,106,74,0.14), transparent 60%), radial-gradient(ellipse 50% 40% at 0% 0%, rgba(125,143,122,0.12), transparent 60%)",
           }}
         />
-        <div className="relative grid lg:grid-cols-[1.2fr_1fr] gap-10 lg:gap-16 items-center">
-          <div>
-            <BrandBadge label="Private beta" tone="sage" />
-            <h2 className="mt-6 font-display text-4xl md:text-5xl tracking-tight leading-[1.05] text-ink">
-              Want early access?
-            </h2>
-            <p className="mt-5 text-lg text-ink/65 leading-relaxed max-w-xl">
-              Send us a note and we&apos;ll let you know when the beta opens.
-              No automated drips, no newsletters — just a personal heads-up
-              when there&apos;s something to try.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <LinkButton
-                href={`mailto:${EMAIL}?subject=${encodeURIComponent("WearWhere beta access request")}`}
-                external
-                variant="primary"
-                size="lg"
-              >
-                Request beta access
-              </LinkButton>
-              <LinkButton href="/#brands" variant="ghost" size="lg">
-                Brand or retailer? Get in touch
-              </LinkButton>
-            </div>
-            <p className="mt-6 text-xs text-ink/45 max-w-md">
-              iOS-first. App Store launch in preparation. We&apos;ll only email
-              the address you write from.
-            </p>
+        <div className="relative max-w-2xl">
+          <BrandBadge label="Private beta" tone="sage" />
+          <h2 className="mt-6 font-display text-4xl md:text-5xl tracking-tight leading-[1.05] text-ink">
+            Want early access?
+          </h2>
+          <p className="mt-5 text-lg text-ink/65 leading-relaxed">
+            Drop your email and we&apos;ll let you know when the iOS beta
+            opens.
+          </p>
+          <div className="mt-8">
+            <WaitlistInputRow />
           </div>
-
-          <div className="lg:justify-self-end">
-            <AppStoreComingSoonButton variant="ink" />
-            <p className="mt-4 text-xs text-ink/45 max-w-[16rem] leading-relaxed">
-              We&apos;ll switch this to the official Apple App Store badge
-              once the listing is live.
-            </p>
-          </div>
+          <span className="mt-8 inline-flex items-center gap-2 rounded-full border border-mist/70 bg-ivory px-3 py-1.5 text-[0.65rem] tracking-[0.18em] uppercase text-ink/55">
+            <span className="size-1 rounded-full bg-sage" aria-hidden />
+            iOS app in preparation
+          </span>
         </div>
       </div>
     </section>

@@ -14,10 +14,10 @@ const playfair = Playfair_Display({
   display: "swap",
 });
 
-const SITE_URL = "https://wearwhere.app";
-const TITLE = "WearWhere — Outfits for the plans you actually have";
+const SITE_URL = "https://wearwhere-landing.vercel.app";
+const TITLE = "WearWhere — Know what to wear before the night starts";
 const DESCRIPTION =
-  "WearWhere is an iOS-first, Europe-focused fashion app that helps users plan outfits for events, weather, city days, nights out, and friend votes.";
+  "WearWhere is an iOS-first fashion app that plans outfits around real events, weather, comfort, style, and official seller links.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

@@ -5,8 +5,8 @@ const footerCols = [
     heading: "WearWhere",
     items: [
       { label: "How it works", href: "/#how-it-works" },
-      { label: "For brands", href: "/#brands" },
-      { label: "Beta status", href: "/#beta" },
+      { label: "App preview", href: "/#app-preview" },
+      { label: "For brands", href: "/brands" },
     ],
   },
   {
@@ -14,14 +14,14 @@ const footerCols = [
     items: [
       { label: "Privacy", href: "/privacy" },
       { label: "Terms", href: "/terms" },
-      { label: "Affiliate disclosure", href: "/#disclosure" },
+      { label: "Affiliate disclosure", href: "/brands#disclosure" },
     ],
   },
   {
     heading: "Contact",
     items: [
       { label: "Email", href: "/contact" },
-      { label: "Brands & retailers", href: "/#brands" },
+      { label: "Brands & retailers", href: "/brands" },
     ],
   },
 ];

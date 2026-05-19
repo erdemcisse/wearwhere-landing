@@ -3,31 +3,42 @@ export interface TrustBullet {
   description: string;
 }
 
-export const trustBullets: TrustBullet[] = [
+/**
+ * Compact 4-card trust signal block sitting directly under the hero.
+ * Max 3 columns on desktop so the grid never feels cramped.
+ */
+export const heroTrustSignals: TrustBullet[] = [
   {
-    title: "No checkout in WearWhere",
+    title: "No login to start",
     description:
-      "Payment, delivery, returns, and customer service all stay with the retailer.",
+      "Browse events and build a first look without creating an account.",
   },
   {
-    title: "No fake live stock",
+    title: "Real events + weather",
     description:
-      "Availability is shown as 'unknown' unless a human just verified it.",
+      "City, venue, and forecast already factored in.",
   },
   {
-    title: "Account deletion in-app",
+    title: "Official seller links",
     description:
-      "Beta accounts can be deleted from inside the app at any time.",
-  },
-  {
-    title: "Affiliate links disclosed",
-    description:
-      "When an approved affiliate link is active, the disclosure appears on that product.",
+      "Tap through to the brand's own product page. No marketplace, no checkout interception.",
   },
   {
     title: "Private-first sharing",
     description:
-      "Share and vote links are revocable. No public comments, no public profiles.",
+      "Share and vote links are revocable. No public feed, no public profile.",
+  },
+];
+
+/**
+ * Full 5-line trust posture used on /brands and in the footer note.
+ */
+export const fullTrustPosture: TrustBullet[] = [
+  ...heroTrustSignals,
+  {
+    title: "Account deletion in-app",
+    description:
+      "Beta accounts can be deleted from inside the app at any time.",
   },
 ];
 

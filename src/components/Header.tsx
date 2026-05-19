@@ -7,7 +7,7 @@ const BETA_MAILTO = `mailto:${EMAIL}?subject=${encodeURIComponent("WearWhere bet
 const navLinks = [
   { href: "/#how-it-works", label: "How it works" },
   { href: "/#app-preview", label: "App preview" },
-  { href: "/#brands", label: "For brands" },
+  { href: "/brands", label: "For brands" },
   { href: "/privacy", label: "Privacy" },
   { href: "/contact", label: "Contact" },
 ];
