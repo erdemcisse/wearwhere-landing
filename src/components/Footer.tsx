@@ -5,8 +5,9 @@ const footerCols = [
     heading: "WearWhere",
     items: [
       { label: "How it works", href: "/#how-it-works" },
-      { label: "App preview", href: "/#app-preview" },
+      { label: "App", href: "/#app-showcase" },
       { label: "For brands", href: "/brands" },
+      { label: "About", href: "/about" },
     ],
   },
   {
@@ -21,7 +22,7 @@ const footerCols = [
     heading: "Contact",
     items: [
       { label: "Email", href: "/contact" },
-      { label: "Brands & retailers", href: "/brands" },
+      { label: "Partnership enquiry", href: "/brands#partnership-form" },
     ],
   },
 ];

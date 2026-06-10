@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: "Terms",
   description:
     "Plain-language beta terms for the WearWhere private beta.",
+  alternates: {
+    canonical: "/terms",
+  },
 };
 
 export default function TermsPage() {
@@ -13,7 +16,7 @@ export default function TermsPage() {
       eyebrow="Terms"
       title="Beta terms of use."
       description="Concise, readable terms for the WearWhere private beta. The full legal version preserves the same posture once we exit beta."
-      updated="May 2026"
+      updated="June 2026"
     >
       <LegalSection heading="What WearWhere provides">
         <p>

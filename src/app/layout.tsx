@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
+import { BetaBanner } from "@/components/BetaBanner";
 import "./globals.css";
 
 const inter = Inter({
@@ -15,9 +16,9 @@ const playfair = Playfair_Display({
 });
 
 const SITE_URL = "https://wearwhere-landing.vercel.app";
-const TITLE = "WearWhere — Know what to wear before the night starts";
+const TITLE = "WearWhere — What to wear. Where to go.";
 const DESCRIPTION =
-  "WearWhere is an iOS-first fashion app that plans outfits around real events, weather, comfort, style, and official seller links.";
+  "WearWhere helps you decide what to wear to concerts, dinners, festivals, and dates. Event-aware, weather-aware, style-aware. iOS app — Europe first.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -38,6 +39,9 @@ export const metadata: Metadata = {
     "Europe fashion",
   ],
   authors: [{ name: "WearWhere" }],
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     type: "website",
     url: SITE_URL,
@@ -57,12 +61,16 @@ export const metadata: Metadata = {
   },
 };
 
+// Set NEXT_PUBLIC_SHOW_BETA_BANNER=false once the App Store version is live.
+const showBetaBanner = process.env.NEXT_PUBLIC_SHOW_BETA_BANNER !== "false";
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
       <body className="min-h-screen bg-ivory text-ink antialiased">
+        {showBetaBanner ? <BetaBanner /> : null}
         {children}
       </body>
     </html>

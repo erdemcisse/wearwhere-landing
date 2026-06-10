@@ -1,0 +1,182 @@
+"use client";
+
+import { useState } from "react";
+
+const EMAIL = "erdemcisse98@icloud.com";
+
+const SUBJECTS = [
+  "General",
+  "Beta access",
+  "Partnership",
+  "Press",
+  "Bug report",
+];
+
+type Status = "idle" | "submitting" | "success" | "fallback" | "error";
+
+const inputCls =
+  "w-full rounded-xl border border-ink/15 bg-ivory px-4 py-2.5 text-sm text-ink placeholder:text-ink/35 focus:outline-none focus:border-ink/40 transition-colors";
+const labelCls = "block text-xs font-medium tracking-wide text-ink/70 mb-1.5";
+
+/**
+ * Contact form posting to /api/partnership with the chosen subject. Same
+ * mailto fallback contract as the other forms when email isn't configured.
+ */
+export function ContactForm() {
+  const [fields, setFields] = useState({
+    name: "",
+    email: "",
+    subject: SUBJECTS[0],
+    message: "",
+  });
+  const [status, setStatus] = useState<Status>("idle");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const set =
+    (key: keyof typeof fields) =>
+    (
+      e: React.ChangeEvent<
+        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+      >,
+    ) =>
+      setFields((f) => ({ ...f, [key]: e.target.value }));
+
+  const mailtoHref = () => {
+    const body = `From: ${fields.name} <${fields.email}>\n\n${fields.message}`;
+    return `mailto:${EMAIL}?subject=${encodeURIComponent(`WearWhere ${fields.subject.toLowerCase()}`)}&body=${encodeURIComponent(body)}`;
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (status === "submitting") return;
+    setStatus("submitting");
+    setErrorMsg("");
+
+    try {
+      const res = await fetch("/api/partnership", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: fields.name,
+          email: fields.email,
+          subject: `Contact — ${fields.subject}`,
+          message: fields.message,
+        }),
+      });
+
+      if (res.ok) {
+        setStatus("success");
+        return;
+      }
+      if (res.status === 400) {
+        const data = (await res.json().catch(() => null)) as {
+          error?: string;
+        } | null;
+        setErrorMsg(data?.error ?? "Please check the required fields.");
+        setStatus("error");
+        return;
+      }
+      window.location.href = mailtoHref();
+      setStatus("fallback");
+    } catch {
+      window.location.href = mailtoHref();
+      setStatus("fallback");
+    }
+  };
+
+  if (status === "success") {
+    return (
+      <div
+        className="rounded-2xl border border-sage/40 bg-sage/10 px-6 py-5"
+        role="status"
+      >
+        <p className="text-sm text-ink leading-relaxed">
+          <span className="text-sage font-medium">✓ Message sent.</span>{" "}
+          We&apos;ll get back to you from {EMAIL}.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={handleSubmit} aria-label="Contact">
+      <div className="grid sm:grid-cols-2 gap-4">
+        <div>
+          <label className={labelCls} htmlFor="cf-name">
+            Your name *
+          </label>
+          <input
+            id="cf-name"
+            type="text"
+            required
+            value={fields.name}
+            onChange={set("name")}
+            className={inputCls}
+            autoComplete="name"
+          />
+        </div>
+        <div>
+          <label className={labelCls} htmlFor="cf-email">
+            Email *
+          </label>
+          <input
+            id="cf-email"
+            type="email"
+            required
+            value={fields.email}
+            onChange={set("email")}
+            className={inputCls}
+            autoComplete="email"
+          />
+        </div>
+        <div className="sm:col-span-2">
+          <label className={labelCls} htmlFor="cf-subject">
+            Subject
+          </label>
+          <select
+            id="cf-subject"
+            value={fields.subject}
+            onChange={set("subject")}
+            className={inputCls}
+          >
+            {SUBJECTS.map((s) => (
+              <option key={s} value={s}>
+                {s}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="sm:col-span-2">
+          <label className={labelCls} htmlFor="cf-message">
+            Message *
+          </label>
+          <textarea
+            id="cf-message"
+            rows={5}
+            required
+            value={fields.message}
+            onChange={set("message")}
+            className={`${inputCls} resize-y`}
+          />
+        </div>
+      </div>
+
+      <div className="mt-6 flex flex-wrap items-center gap-4">
+        <button
+          type="submit"
+          disabled={status === "submitting"}
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-coral text-ivory font-medium tracking-tight h-11 px-6 text-sm hover:bg-coral-deep hover:-translate-y-px transition-all disabled:opacity-60 shadow-[0_8px_24px_-12px_rgba(255,106,74,0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 focus-visible:ring-offset-ivory"
+        >
+          {status === "submitting" ? "Sending…" : "Send message →"}
+        </button>
+        <p className="text-xs text-ink/50" aria-live="polite">
+          {status === "fallback"
+            ? `We opened your mail app with the message prefilled — or write to ${EMAIL} directly.`
+            : status === "error"
+              ? <span className="text-coral-deep">{errorMsg}</span>
+              : null}
+        </p>
+      </div>
+    </form>
+  );
+}

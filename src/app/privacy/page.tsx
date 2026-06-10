@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: "Privacy",
   description:
     "How WearWhere handles your data during the private beta. Plain language, no dark patterns.",
+  alternates: {
+    canonical: "/privacy",
+  },
 };
 
 export default function PrivacyPage() {
@@ -13,7 +16,7 @@ export default function PrivacyPage() {
       eyebrow="Privacy"
       title="Privacy policy."
       description="Plain-language privacy policy for the WearWhere private beta. We try to keep this readable; the legal version follows the same posture once we exit beta."
-      updated="May 2026"
+      updated="June 2026"
     >
       <LegalSection heading="What WearWhere is">
         <p>
