@@ -8,6 +8,8 @@ import { StatsStrip } from "@/components/StatsStrip";
 import { AppShowcase } from "@/components/AppShowcase";
 import { WaitlistForm } from "@/components/WaitlistForm";
 import { WaitlistCTA } from "@/components/WaitlistCTA";
+import { Faq } from "@/components/Faq";
+import { OccasionIcon, type OccasionKind } from "@/components/OccasionIcon";
 import { screens } from "@/data/screens";
 
 export const metadata: Metadata = {
@@ -58,13 +60,40 @@ const problems = [
   { icon: "💬", text: "Three selfies sent to the group chat" },
 ];
 
-const occasions = [
-  { icon: "🎵", title: "Concert tonight", note: "Indoor venue, standing crowd" },
-  { icon: "🍽", title: "Saturday dinner", note: "Dress code: smart-casual" },
-  { icon: "🎪", title: "Festival weekend", note: "Three-day outdoor, pack light" },
-  { icon: "✈", title: "Early flight", note: "7am airport, comfort first" },
-  { icon: "🎂", title: "Wedding guest", note: "Not the bride, still chic" },
-  { icon: "☕", title: "Rooftop brunch", note: "Warm afternoon, cool evening" },
+const occasions: {
+  icon: OccasionKind;
+  title: string;
+  note: string;
+}[] = [
+  { icon: "concert", title: "Concert tonight", note: "Indoor venue, standing crowd" },
+  { icon: "dinner", title: "Saturday dinner", note: "Dress code: smart-casual" },
+  { icon: "festival", title: "Festival weekend", note: "Three-day outdoor, pack light" },
+  { icon: "flight", title: "Early flight", note: "7am airport, comfort first" },
+  { icon: "wedding", title: "Wedding guest", note: "Not the bride, still chic" },
+  { icon: "brunch", title: "Rooftop brunch", note: "Warm afternoon, cool evening" },
+];
+
+const faqItems = [
+  {
+    q: "Is it free?",
+    a: "Yes, during the beta. Affiliate links may earn us a small commission from the retailer — always disclosed, never added to your price.",
+  },
+  {
+    q: "When does it launch?",
+    a: "iOS beta first, starting in Germany and expanding city by city. Join the waitlist below and we'll email you when your market opens.",
+  },
+  {
+    q: "Android or web?",
+    a: "Not planned — WearWhere is iOS-first.",
+  },
+  {
+    q: "Do you check out for me?",
+    a: "No — every purchase happens on the brand's own site. WearWhere never sees your card.",
+  },
+  {
+    q: "Do you post anything publicly?",
+    a: "No — sharing is link-based and revocable. There's no public feed and no public profile.",
+  },
 ];
 
 const SITE_URL = "https://wearwhere-landing.vercel.app";
@@ -126,18 +155,18 @@ export default function Home() {
               </p>
               <h1 className="mt-6 font-display text-[2.75rem] sm:text-6xl md:text-7xl tracking-tight leading-[0.98] text-ink">
                 Outfits for the plans you{" "}
-                <em className="not-italic relative inline-block">
-                  <span className="relative z-10">actually have</span>
+                <em className="not-italic relative inline-block whitespace-nowrap">
+                  <span className="relative z-10">actually have.</span>
                   <span
                     aria-hidden
-                    className="absolute inset-x-0 bottom-1 h-3 bg-coral/30 -z-0"
+                    className="absolute inset-x-0 bottom-1 h-3 bg-coral/30 z-0"
                   />
                 </em>
-                .
               </h1>
               <p className="mt-7 max-w-xl text-lg text-ink/65 leading-relaxed">
                 Tell WearWhere where you&apos;re going. We build the look
-                around the event, the weather, and your style.
+                around the event, the weather, and your style — then link
+                every piece to the brand&apos;s official store.
               </p>
 
               <div className="mt-9">
@@ -204,7 +233,7 @@ export default function Home() {
             <SectionHeader
               eyebrow="How it works"
               title="Pick the plan. Get the look."
-              description="A small, opinionated planner — not a feed, not a marketplace."
+              description="Four inputs — event & venue, weather, comfort & fit, style & budget — one look out. Not a feed. Not a marketplace."
             />
             <ol className="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
               {howItWorks.map((s) => (
@@ -251,9 +280,7 @@ export default function Home() {
                   key={o.title}
                   className="rounded-2xl border border-mist/60 bg-ivory p-5 shadow-[0_1px_2px_rgba(20,20,20,0.04),0_8px_24px_-12px_rgba(20,20,20,0.08)]"
                 >
-                  <span aria-hidden className="text-2xl">
-                    {o.icon}
-                  </span>
+                  <OccasionIcon kind={o.icon} className="size-7 text-sage" />
                   <p className="mt-3 font-display text-lg text-ink">
                     {o.title}
                   </p>
@@ -282,6 +309,16 @@ export default function Home() {
             <LinkButton href="/brands" variant="secondary" size="md">
               For brands & retailers
             </LinkButton>
+          </div>
+        </section>
+
+        {/* ============================================================ */}
+        {/* FAQ */}
+        {/* ============================================================ */}
+        <section className="mx-auto max-w-4xl px-6 lg:px-8 pb-4">
+          <SectionHeader eyebrow="FAQ" title="Quick answers." />
+          <div className="mt-10">
+            <Faq items={faqItems} />
           </div>
         </section>
 

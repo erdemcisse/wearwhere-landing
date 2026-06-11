@@ -19,16 +19,8 @@ const trustTokens = [
 export function WaitlistCTA() {
   return (
     <section id="waitlist" className="mx-auto max-w-6xl px-6 lg:px-8 py-24">
-      <div className="relative overflow-hidden rounded-[2rem] bg-ivory-soft border border-mist/60 p-10 md:p-16 shadow-[0_1px_2px_rgba(20,20,20,0.04),0_24px_48px_-20px_rgba(20,20,20,0.12)]">
-        <div
-          aria-hidden
-          className="absolute inset-0 opacity-60"
-          style={{
-            background:
-              "radial-gradient(ellipse 60% 50% at 100% 100%, rgba(255,106,74,0.14), transparent 60%), radial-gradient(ellipse 50% 40% at 0% 0%, rgba(125,143,122,0.12), transparent 60%)",
-          }}
-        />
-        <div className="relative max-w-2xl">
+      <div className="rounded-[2rem] bg-ivory-soft border border-mist/60 p-10 md:p-16 shadow-[0_1px_2px_rgba(20,20,20,0.04),0_24px_48px_-20px_rgba(20,20,20,0.12)]">
+        <div className="max-w-2xl">
           <BrandBadge label="Private beta" tone="sage" />
           <h2 className="mt-6 font-display text-4xl md:text-5xl tracking-tight leading-[1.05] text-ink">
             Want early access?

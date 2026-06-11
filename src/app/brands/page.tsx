@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { SectionHeader } from "@/components/SectionHeader";
 import { LinkButton } from "@/components/Button";
 import { DisclosureNote } from "@/components/DisclosureNote";
 import { PartnershipForm } from "@/components/PartnershipForm";
-import { screens, SCREEN_WIDTH, SCREEN_HEIGHT } from "@/data/screens";
+import { PhoneFrame } from "@/components/PhoneFrame";
+import { Faq } from "@/components/Faq";
+import { screens } from "@/data/screens";
 
 export const metadata: Metadata = {
   title: "For brands & retailers",
@@ -34,7 +35,7 @@ const marketFacts = [
 const placements = [
   {
     name: "Outfit Breakdown",
-    screen: screens.outfitBreakdown,
+    screen: screens.lookDetail,
     body: "The core placement. The user has picked her event — say, a concert in Berlin on Friday. WearWhere generates complete outfits scored on weather, comfort, and her vibe. Each look lists its component products (top, bottom, shoes, accessories) with brand, price preview, and an “Open seller” button. She's already committed to the occasion; she's deciding which version of the look to buy.",
   },
   {
@@ -136,6 +137,29 @@ const summaryRows = [
   },
 ];
 
+const brandsFaq = [
+  {
+    q: "Do you scrape retailer sites?",
+    a: "No — ever. We use official programme feeds once approved, and canonical seller URLs from human curation otherwise.",
+  },
+  {
+    q: "Is there an in-app checkout?",
+    a: "No — the retailer owns the transaction. WearWhere hands the user to your official product page and steps out of the way.",
+  },
+  {
+    q: "What network are you on?",
+    a: "Awin, as an approved publisher. Per-advertiser programme approval is still required — that's what we're applying for.",
+  },
+  {
+    q: "What markets do you cover?",
+    a: "Germany first; 19 European shopping markets supported; Türkiye is browse-only until commerce opens.",
+  },
+  {
+    q: "How is disclosure handled?",
+    a: "Per-product, and only when an approved affiliate link exists. We never imply commission where there is none.",
+  },
+];
+
 const linkFlow = [
   {
     n: "01",
@@ -176,12 +200,12 @@ export default function BrandsPage() {
 
           <blockquote className="mt-10 rounded-3xl border border-mist/60 bg-ivory-soft p-7 md:p-8 text-[0.95rem] text-ink/75 leading-relaxed italic shadow-[0_1px_2px_rgba(20,20,20,0.04),0_8px_24px_-12px_rgba(20,20,20,0.10)]">
             WearWhere is a Europe-first iOS app that recommends
-            event-appropriate outfits accounting for venue, weather, comfort,
-            and budget, and links users to brands&apos; official product
-            pages. We currently send users to sellers directly; we are
-            applying to track and attribute that traffic through your
-            programme. No checkout happens inside the app — the retailer owns
-            the customer and the transaction.
+            event-appropriate outfits — accounting for event and venue, live
+            weather, comfort and fit, and style and budget — and links every
+            piece to the brand&apos;s official product page. There is no
+            in-app checkout; the retailer always owns the transaction. We
+            currently send users to sellers directly; we are applying to
+            track and attribute that traffic through your programme.
           </blockquote>
 
           <div className="mt-8 flex flex-wrap gap-3">
@@ -281,18 +305,8 @@ export default function BrandsPage() {
                 key={p.name}
                 className="rounded-3xl border border-mist/60 bg-ivory-soft overflow-hidden shadow-[0_1px_2px_rgba(20,20,20,0.04),0_8px_24px_-12px_rgba(20,20,20,0.10)]"
               >
-                <div className="relative h-64 bg-cream overflow-hidden">
-                  <Image
-                    src={p.screen.src}
-                    alt={p.screen.alt}
-                    width={SCREEN_WIDTH}
-                    height={SCREEN_HEIGHT}
-                    sizes="(min-width: 768px) 45vw, 90vw"
-                    className="size-full object-cover object-top"
-                  />
-                  <span className="absolute top-3 left-3 text-[0.55rem] font-medium tracking-[0.18em] uppercase bg-ink text-ivory rounded-full px-2.5 py-1">
-                    Real beta screen
-                  </span>
+                <div className="flex justify-center bg-cream pt-10 pb-8 px-6">
+                  <PhoneFrame src={p.screen.src} alt={p.screen.alt} size="sm" />
                 </div>
                 <div className="p-7">
                   <p className="text-xs tracking-[0.18em] uppercase text-sage font-medium">
@@ -452,20 +466,21 @@ export default function BrandsPage() {
             title="Partnership at a glance."
           />
           <div className="mt-12 rounded-3xl border border-mist/60 overflow-hidden">
-            <table className="w-full text-sm">
-              <tbody>
+            {/* Stacks label-over-value on narrow screens, table rows from sm up. */}
+            <table className="w-full text-sm block sm:table">
+              <tbody className="block sm:table-row-group">
                 {summaryRows.map((row, i) => (
                   <tr
                     key={row.label}
-                    className={i % 2 === 0 ? "bg-ivory" : "bg-ivory-soft"}
+                    className={`block sm:table-row ${i % 2 === 0 ? "bg-ivory" : "bg-ivory-soft"}`}
                   >
                     <th
                       scope="row"
-                      className="align-top text-left font-display text-base text-ink p-5 w-36 sm:w-44"
+                      className="block sm:table-cell align-top text-left font-display text-base text-ink px-5 pt-5 sm:p-5 sm:w-44"
                     >
                       {row.label}
                     </th>
-                    <td className="align-top p-5 text-ink/70 leading-relaxed">
+                    <td className="block sm:table-cell align-top px-5 pb-5 pt-1.5 sm:p-5 text-ink/70 leading-relaxed">
                       {row.value}
                     </td>
                   </tr>
@@ -494,6 +509,19 @@ export default function BrandsPage() {
             relationship exists, the product opens as a plain official seller
             link.
           </DisclosureNote>
+        </section>
+
+        {/* ============================================================ */}
+        {/* REVIEWER FAQ */}
+        {/* ============================================================ */}
+        <section className="mx-auto max-w-4xl px-6 lg:px-8 pb-24">
+          <SectionHeader
+            eyebrow="Reviewer FAQ"
+            title="The questions every reviewer asks."
+          />
+          <div className="mt-10">
+            <Faq items={brandsFaq} />
+          </div>
         </section>
 
         {/* ============================================================ */}

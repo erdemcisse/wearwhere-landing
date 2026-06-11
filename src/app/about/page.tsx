@@ -66,10 +66,12 @@ export default function AboutPage() {
         <section className="mx-auto max-w-3xl px-6 lg:px-8 pb-20 space-y-5 text-[0.95rem] text-ink/75 leading-relaxed">
           <p>
             WearWhere started as a personal frustration. The
-            outfit-for-tonight question is genuinely hard — it involves your
-            event, the weather, the venue&apos;s vibe, your comfort, your
-            budget, and often your friends&apos; opinions. Every existing app
-            solves a piece of it. WearWhere tries to solve it whole.
+            outfit-for-tonight question is genuinely hard — it involves the
+            event and venue, the live weather, your comfort and fit, your
+            style and budget, and often your friends&apos; opinions. Every
+            existing app solves a piece of it. WearWhere tries to solve it
+            whole — and every piece it recommends links to the brand&apos;s
+            official store; the retailer always owns the transaction.
           </p>
           <p>
             The app is being built by a solo founder in Germany, with a
@@ -147,7 +149,12 @@ export default function AboutPage() {
                 Reviewing a publisher application?
               </p>
             </div>
-            <LinkButton href="/brands" variant="secondary" size="md">
+            <LinkButton
+              href="/brands#partnership-form"
+              variant="secondary"
+              size="md"
+              className="shrink-0 text-ivory"
+            >
               Partnership details →
             </LinkButton>
           </div>

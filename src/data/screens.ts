@@ -1,11 +1,12 @@
 /**
  * Registry of real beta screenshots living in /public/images/app_screenshots/.
  *
- * Every screenshot is a 1320×2868 iPhone 17 Pro Max simulator capture from
- * the 2026-06-10 walkthrough (home → plan wizard → look → breakdown →
- * closet → feed → share → account). Reference screens from here so alt
- * text and paths stay consistent across the hero, showcase, how-it-works,
- * and the brands placements.
+ * Every screenshot is an iPhone 17 Pro Max simulator capture from the
+ * 2026-06-10 walkthrough (home → plan wizard → look → breakdown → closet →
+ * feed → share → account), downscaled to 990×2151 (the captures' native
+ * 1320/2868 ratio — which PhoneFrame's screen aspect must match exactly).
+ * Reference screens from here so alt text and paths stay consistent across
+ * the hero, showcase, how-it-works, and the brands placements.
  */
 
 export interface AppScreen {
@@ -97,7 +98,3 @@ export const screens = {
     alt: "WearWhere account screen — private by default, works on-device as a guest with optional sync",
   },
 } as const satisfies Record<string, AppScreen>;
-
-/** Native dimensions of all simulator captures. */
-export const SCREEN_WIDTH = 1320;
-export const SCREEN_HEIGHT = 2868;

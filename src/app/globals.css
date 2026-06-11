@@ -38,10 +38,12 @@ body {
   color: var(--color-ivory);
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+/*
+ * Note: no unlayered `a { color: inherit }` rule here. Unlayered rules
+ * beat Tailwind's @layer utilities, which silently overrode every
+ * text-color utility on links (invisible button labels). Tailwind's
+ * preflight already makes anchors inherit color/decoration.
+ */
 
 @media (prefers-reduced-motion: reduce) {
   *,

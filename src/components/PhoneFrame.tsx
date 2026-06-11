@@ -1,5 +1,7 @@
+"use client";
+
 import Image from "next/image";
-import { SCREEN_WIDTH, SCREEN_HEIGHT } from "@/data/screens";
+import { useState } from "react";
 
 type FrameSize = "sm" | "md" | "lg";
 
@@ -8,50 +10,30 @@ interface PhoneFrameProps {
   alt: string;
   caption?: string;
   size?: FrameSize;
-  /** Set on the single above-the-fold frame (hero) so it loads eagerly. */
+  /** Above-the-fold frame (hero): preloads the image. */
   priority?: boolean;
+  /** Load eagerly without preload hints (carousel screens). */
+  eager?: boolean;
   className?: string;
 }
 
-const frames: Record<
-  FrameSize,
-  { width: string; radius: string; screenRadius: string; pad: string; island: string }
-> = {
-  sm: {
-    width: "w-[200px]",
-    radius: "rounded-[28px]",
-    screenRadius: "rounded-[22px]",
-    pad: "p-1.5",
-    island: "top-2 h-4 w-16",
-  },
-  md: {
-    width: "w-[280px]",
-    radius: "rounded-[36px]",
-    screenRadius: "rounded-[30px]",
-    pad: "p-2",
-    island: "top-2.5 h-5 w-20",
-  },
-  lg: {
-    width: "w-[320px]",
-    radius: "rounded-[44px]",
-    screenRadius: "rounded-[36px]",
-    pad: "p-2.5",
-    island: "top-3 h-6 w-24",
-  },
-};
-
-const sizesAttr: Record<FrameSize, string> = {
-  sm: "200px",
-  md: "280px",
-  lg: "320px",
+// Outer radius per size; screen radius = outer − 10 (the uniform bezel width).
+const frames: Record<FrameSize, { width: string; radius: string; screenRadius: string; sizes: string }> = {
+  sm: { width: "w-[200px]", radius: "rounded-[36px]", screenRadius: "rounded-[26px]", sizes: "180px" },
+  md: { width: "w-[264px]", radius: "rounded-[44px]", screenRadius: "rounded-[34px]", sizes: "244px" },
+  lg: { width: "w-[320px]", radius: "rounded-[52px]", screenRadius: "rounded-[42px]", sizes: "300px" },
 };
 
 /**
- * Reusable iPhone frame around a real beta screenshot.
+ * The single iPhone-frame implementation used by the hero, how-it-works,
+ * app showcase, and the brands placement cards.
  *
- * The frame keeps the screenshot's native 1320×2868 aspect ratio so the
- * layout never shifts while the image loads. Used in the hero, the app
- * showcase, how-it-works, and the brands placement cards.
+ * The simulator screenshots are full captures that already contain the
+ * real iOS status bar and Dynamic Island, so the frame draws NO island and
+ * NO status bar — just an even ink bezel. The screen keeps the capture's
+ * exact 1320/2868 aspect ratio, so images render with zero crop and zero
+ * layout shift; if one fails to load, a neutral ivory screen with the
+ * wordmark renders instead of a blank rectangle.
  */
 export function PhoneFrame({
   src,
@@ -59,34 +41,46 @@ export function PhoneFrame({
   caption,
   size = "md",
   priority = false,
+  eager = false,
   className = "",
 }: PhoneFrameProps) {
   const f = frames[size];
+  const [failed, setFailed] = useState(false);
 
   return (
     <figure className={`flex flex-col items-center ${className}`}>
       <div
-        className={`relative ${f.width} max-w-full aspect-[1320/2868] bg-ink ${f.pad} ${f.radius} shadow-[0_8px_24px_-8px_rgba(20,20,20,0.16),0_40px_80px_-24px_rgba(20,20,20,0.3)]`}
+        className={`${f.width} max-w-full bg-ink p-2.5 ${f.radius} shadow-[0_30px_60px_-22px_rgba(20,20,20,0.35)]`}
       >
-        {/* Dynamic Island */}
         <div
-          aria-hidden
-          className={`absolute left-1/2 -translate-x-1/2 z-10 bg-ink rounded-full ${f.island}`}
-        />
-        <div className={`relative size-full overflow-hidden ${f.screenRadius} bg-ivory`}>
-          <Image
-            src={src}
-            alt={alt}
-            width={SCREEN_WIDTH}
-            height={SCREEN_HEIGHT}
-            sizes={sizesAttr[size]}
-            priority={priority}
-            className="size-full object-cover object-top"
-          />
+          className={`relative w-full aspect-[1320/2868] overflow-hidden ${f.screenRadius} bg-ivory`}
+        >
+          {failed ? (
+            <div
+              role="img"
+              aria-label={alt}
+              className="size-full flex items-center justify-center"
+            >
+              <span className="font-display text-lg text-ink/40 tracking-tight">
+                WearWhere
+              </span>
+            </div>
+          ) : (
+            <Image
+              src={src}
+              alt={alt}
+              fill
+              sizes={f.sizes}
+              priority={priority}
+              loading={priority ? undefined : eager ? "eager" : "lazy"}
+              className="object-cover object-top"
+              onError={() => setFailed(true)}
+            />
+          )}
         </div>
       </div>
       {caption ? (
-        <figcaption className="mt-4 text-[13px] text-ink/55 text-center leading-snug max-w-[220px]">
+        <figcaption className="mt-4 text-[13px] text-ink/55 text-center leading-snug max-w-55">
           {caption}
         </figcaption>
       ) : null}

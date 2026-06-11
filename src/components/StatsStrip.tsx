@@ -1,12 +1,13 @@
 const stats = [
-  { value: "19", label: "Markets", hint: "DE first, then Europe" },
-  { value: "16+", label: "Event types", hint: "Concert to wedding" },
-  { value: "Today's", label: "Weather", hint: "Built into every look" },
-  { value: "Official", label: "Seller links", hint: "Only — no marketplace" },
+  { value: "19", label: "European markets", hint: "Germany first, then EU" },
+  { value: "16+", label: "Event types", hint: "Concert → wedding" },
+  { value: "0", label: "In-app checkouts", hint: "We never sell" },
+  { value: "100%", label: "Official store links", hint: "Every piece, brand's own site" },
 ];
 
 /**
- * Full-width number strip between the hero and how-it-works.
+ * Full-width number strip between the hero and how-it-works. Four
+ * parallel, honest claims — no invented user or traffic numbers.
  */
 export function StatsStrip() {
   return (
